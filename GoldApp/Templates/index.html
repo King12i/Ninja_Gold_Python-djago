@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ninja Money</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+    <table>
+        <tr>
+            <th>Your Gold:  </th>
+            <th id="goldBox">{{ request.session.gold }}</th>
+        </tr>
+    </table>
+    <div id=cubeContainer>
+        <div class="gameCube">
+            <h1>Farm</h1>
+            <h3>(earns 10-20 gold)</h3>
+            <form action="/process_money" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="location" value="1">
+                <input type="submit" value="Find Gold">
+            </form>
+        </div>
+        <div class="gameCube">
+            <h1>Cave</h1>
+            <h3>(earns 5-10 gold)</h3>
+            <form action="/process_money" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="location" value="2">
+                <input type="submit" value="Find Gold">
+            </form>
+        </div>
+        <div class="gameCube">
+            <h1>House</h1>
+            <h3>(earns 2-5 gold)</h3>
+            <form action="/process_money" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="location" value="3">
+                <input type="submit" value="Find Gold">
+            </form>
+        </div>
+        <div class="gameCube">
+            <h1>Casino</h1>
+            <h3>(earns/takes 0-50 gold)</h3>
+            <form action="/process_money" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="location" value="4">
+                <input type="submit" value="Find Gold">
+            </form>
+        </div>
+    </div>
+    <p>Activities:</p>
+    <div id="output">
+        <script>
+            window.onload=function () {
+                var objDiv = document.getElementById("output");
+                objDiv.scrollTop = objDiv.scrollHeight;
+            }
+        </script>
+        {% for i in request.session.output %}
+            {% if i.minus_flag == False %}
+                <p style="color: limegreen;">{{i.output_text}}</p>
+            {% else %}
+                <p style="color: red;">{{i.output_text}}</p>
+            {% endif %}
+        {% endfor %}
+        {% if request.session.gold < -100 %}
+            <h3 style="color: yellow; background-color: black">You owe the casino too much money. RUN!!!</h3>
+        {% endif %}
+    </div>
+    <form action="/reset" method="POST">
+        {% csrf_token %}
+        <input type="submit" value="Reset">
+    </form>
+</body>
+</html>

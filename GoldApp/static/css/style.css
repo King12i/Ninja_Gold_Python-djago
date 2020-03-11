@@ -1,0 +1,29 @@
+#goldBox{
+    border: 2px solid black;
+    min-width: 80px;
+    text-align: left;
+}
+#cubeContainer{
+    display: inline;
+}
+.gameCube{
+    width: 200px;
+    height: 200px;
+    display: inline-block;
+    border: 2px solid black;
+    text-align: center;
+    margin: 10px;
+}
+input{
+    padding: 10px;
+}
+table, p{
+    margin: 10px;
+}
+#output{
+    width: 850px;
+    height: 200px;
+    margin: 10px;
+    border: 1px solid black;
+    overflow: scroll;
+}
